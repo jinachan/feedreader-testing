@@ -26,7 +26,6 @@ $(function() {
             expect(allFeeds.length).not.toBe(0);
         });
 
-
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
@@ -102,10 +101,41 @@ $(function() {
     });
 
     /* TODO: Write a new test suite named "New Feed Selection" */
+    /* Credit: New Feed Selector suite is from Matt Cranford's walkthrough
+     * Source: https://matthewcranford.com/feed-reader-walkthrough-part-4-async-tests/
+     */
+    describe('New Feed Selector', function() {
+/*         const feedElement = document.querySelector('.feed');
+        let originalFeed, newFeed; */
+        const feed = document.querySelector('.feed');
+        const firstFeed = [];
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+        beforeEach(function(done) {
+            loadFeed(0);
+            /* originalFeed = feedElement.children;
+            done(); */
+            Array.from(feed.children).forEach(function(entry) {
+                firstFeed.push(entry.innerText);
+            });
+            loadFeed(1, done);
+        });
 
+        it('loads new content', function() {
+            Array.from(feed.children).forEach(function(entry, index) {
+                console.log(entry.innerText, firstFeed[index], entry.innerText === firstFeed[index]);
+                expect(entry.innerText === firstFeed[index]).toBe(false);
+            });
+/*             loadFeed(1, done);
+            newFeed = feedElement.children;
+            for (let i = 0; i < originalFeed.length; i++) {
+                console.log(originalFeed[i].innerText, newFeed[i].innerText);
+                expect(originalFeed[i].innerText === newFeed[i].innerText).toBe(false);
+            }
+            done(); */
+        });
+    });
 }());
